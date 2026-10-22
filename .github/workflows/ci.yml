@@ -34,12 +34,9 @@ jobs:
     - name: Compile
       working-directory: ./
       run: mvn compile
-    - name: Test
+    - name: Unit Test and Performance Test
       working-directory: ./
       run: mvn test  
-    - name: Performance Test
-      working-directory: ./
-      run: mvn test -Dtest=TestPerformance
     - name: Build
       working-directory: ./
       run: mvn package -DskipTests
