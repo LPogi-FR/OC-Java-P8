@@ -12,7 +12,6 @@ import gpsUtil.location.Attraction;
 import gpsUtil.location.VisitedLocation;
 import java.util.List;
 import java.util.UUID;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import rewardCentral.RewardCentral;
 import tripPricer.Provider;
@@ -27,7 +26,7 @@ public class TestTourGuideService {
     TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
     User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
+    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user).join();
     tourGuideService.tracker.stopTracking();
     assertEquals(visitedLocation.userId, user.getUserId());
   }
@@ -83,7 +82,7 @@ public class TestTourGuideService {
     TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
     User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
+    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user).join();
 
     tourGuideService.tracker.stopTracking();
 
@@ -98,7 +97,7 @@ public class TestTourGuideService {
     TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
     User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
-    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user);
+    VisitedLocation visitedLocation = tourGuideService.trackUserLocation(user).join();
 
     List<Attraction> attractions = tourGuideService.getNearByAttractions(visitedLocation);
 
@@ -107,8 +106,6 @@ public class TestTourGuideService {
     assertEquals(5, attractions.size());
   }
 
-  @Disabled
-  @Test
   public void getTripDeals() {
     GpsUtil gpsUtil = new GpsUtil();
     RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());

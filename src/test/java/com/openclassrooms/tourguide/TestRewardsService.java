@@ -14,14 +14,13 @@ import gpsUtil.location.VisitedLocation;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import rewardCentral.RewardCentral;
 
-public class TestRewardsService {
+class TestRewardsService {
 
   @Test
-  public void userGetRewards() {
+  void userGetRewards() {
     GpsUtil gpsUtil = new GpsUtil();
     RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
 
@@ -31,23 +30,22 @@ public class TestRewardsService {
     User user = new User(UUID.randomUUID(), "jon", "000", "jon@tourGuide.com");
     Attraction attraction = gpsUtil.getAttractions().getFirst();
     user.addToVisitedLocations(new VisitedLocation(user.getUserId(), attraction, new Date()));
-    tourGuideService.trackUserLocation(user);
+    tourGuideService.trackUserLocation(user).join();
     List<UserReward> userRewards = user.getUserRewards();
     tourGuideService.tracker.stopTracking();
     assertEquals(1, userRewards.size());
   }
 
   @Test
-  public void isWithinAttractionProximity() {
+  void isWithinAttractionProximity() {
     GpsUtil gpsUtil = new GpsUtil();
     RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
     Attraction attraction = gpsUtil.getAttractions().getFirst();
     assertTrue(rewardsService.isWithinAttractionProximity(attraction, attraction));
   }
 
-  // Needs fixed - can throw ConcurrentModificationException
   @Test
-  public void nearAllAttractions() {
+  void nearAllAttractions() {
     GpsUtil gpsUtil = new GpsUtil();
     RewardsService rewardsService = new RewardsService(gpsUtil, new RewardCentral());
     rewardsService.setProximityBuffer(Integer.MAX_VALUE);
@@ -55,7 +53,7 @@ public class TestRewardsService {
     InternalTestHelper.setInternalUserNumber(1);
     TourGuideService tourGuideService = new TourGuideService(gpsUtil, rewardsService);
 
-    rewardsService.calculateRewards(tourGuideService.getAllUsers().getFirst());
+    rewardsService.calculateRewards(tourGuideService.getAllUsers().getFirst()).join();
     List<UserReward> userRewards = tourGuideService.getUserRewards(tourGuideService.getAllUsers().getFirst());
     tourGuideService.tracker.stopTracking();
 

@@ -3,6 +3,7 @@ package com.openclassrooms.tourguide.assembler;
 import com.openclassrooms.tourguide.model.NearAttractionModel;
 import com.openclassrooms.tourguide.service.RewardsService;
 import com.openclassrooms.tourguide.user.User;
+import com.openclassrooms.tourguide.user.UserReward;
 import gpsUtil.location.Attraction;
 import gpsUtil.location.Location;
 import gpsUtil.location.VisitedLocation;
@@ -16,6 +17,13 @@ public class NearAttractionAssembler {
 
   private RewardsService rewardsService;
 
+  /**
+   * Build response to client
+   * @param visitedLocation VisitedLocation
+   * @param attractionList List<Attraction>
+   * @param user User
+   * @return NearAttractionModel
+   */
   public NearAttractionModel toModelNearAttraction(
     VisitedLocation visitedLocation,
     List<Attraction> attractionList,

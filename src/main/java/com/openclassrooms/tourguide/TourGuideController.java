@@ -34,7 +34,6 @@ public class TourGuideController {
     return tourGuideService.getUserLocation(getUser(userName));
   }
 
-  //  TODO: Change this method to no longer return a List of Attractions.
   //  Instead: Get the closest five tourist attractions to the user - no matter how far away they are.
   //  Return a new JSON object that contains:
   // Name of Tourist attraction,
@@ -48,6 +47,7 @@ public class TourGuideController {
     final var user = getUser(userName);
     VisitedLocation visitedLocation = tourGuideService.getUserLocation(user);
     final var attractionList = tourGuideService.getNearByAttractions(visitedLocation);
+    // final var rewards = tourGuideService.getUserRewards(user);
     final var response = nearAttractionAssembler.toModelNearAttraction(visitedLocation, attractionList, user);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
