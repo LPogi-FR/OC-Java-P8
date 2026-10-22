@@ -36,7 +36,10 @@ jobs:
       run: mvn compile
     - name: Test
       working-directory: ./
-      run: mvn test    
+      run: mvn test  
+    - name: Performance Test
+      working-directory: ./
+      run: mvn test -Dtest=TestPerformance
     - name: Build
       working-directory: ./
       run: mvn package -DskipTests
